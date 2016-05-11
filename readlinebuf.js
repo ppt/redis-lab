@@ -22,5 +22,5 @@ require('readline').createInterface({
     buf = JSON.parse(buf);
     console.log(buflen);
     console.log('line = ' + numeral(cnt).format());
-    console.log('time = ' + moment(moment().diff(now)).format('ss.SSS'));
+    console.log('time = ' + moment(moment().diff(now)).format('mm:ss.SSS'));
 });

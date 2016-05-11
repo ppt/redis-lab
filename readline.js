@@ -15,5 +15,5 @@ readline.createInterface({
 }).on('close', function() {
     console.log(`${buf}
 line = ${numeral(cnt).format()}
-time = ${moment(moment().diff(now)).format('ss.SSS')}`);
+time = ${moment(moment().diff(now)).format('mm:ss.SSS')}`);
 });
