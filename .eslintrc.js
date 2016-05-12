@@ -13,10 +13,10 @@ module.exports = {
             "error",
             "unix"
         ],
-        "quotes": [
-            "error",
-            "single"
-        ],
+        // "quotes": [
+        //     "error",
+        //     "double"
+        // ],
         "semi": [
             "error",
             "always"

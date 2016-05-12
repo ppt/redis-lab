@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "moment": "^2.13.0",
-    "numeral": "^1.5.3"
+    "numeral": "^1.5.3",
+    "redis": "^2.6.0-2"
   }
 }
