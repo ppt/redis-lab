@@ -1,0 +1,25 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    hiredis (0.6.1)
+    json (1.8.3)
+    oj (2.15.0)
+    rack (1.6.4)
+    redis (3.3.0)
+    robocop (0.1.1)
+      rack
+    ruby-beautify (0.97.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  hiredis
+  json
+  oj
+  redis
+  robocop
+  ruby-beautify
+
+BUNDLED WITH
+   1.12.3

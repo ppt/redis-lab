@@ -1,27 +1,30 @@
 "use strict";
 
 var numeral = require("numeral"),
-    redis = require("redis"),
     moment = require("moment"),
+    redis = require("redis"),
     now = moment(),
     filename = "/Users/praphan/Desktop/projects/Redis/md-message1-20160308.log",
     // filename = "/Users/praphan/Desktop/projects/Redis/100lines.json",
     cnt = 0,
-    loopsize = 300,
-    buf = [],
+    loopsize = 1000,
     datastr = '';
 
-function save() {
+function save(data) {
     var client = redis.createClient("/tmp/redis.sock"),
         m = client.multi(),
-        data = JSON.parse(datastr + ']'),
         id = cnt - data.length + 1;
     for (var i = 0; i < data.length; i++) {
+        var keys = Object.keys(data[i]),
+            s = '';
+        if (keys.length > 2) {
+            s = JSON.stringify(data[i][keys[2]]);
+        }
         m.hmset(
             `logs:${id + i}`,
             "seqNo", data[i].seqNo,
             "mesgType", data[i].mesgType,
-            "msg", buf[i]
+            "msg", s
         );
     }
     m.exec();
@@ -32,7 +35,6 @@ require("readline").createInterface({
     input: require("fs").createReadStream(filename)
 }).on("line", function(line) {
     cnt = cnt + 1;
-    buf.push(line);
 
     if (cnt % loopsize == 1) {
         datastr = '[' + line;
@@ -41,17 +43,19 @@ require("readline").createInterface({
     }
 
     if (cnt % loopsize == 0) {
-        // JSON.parse(datastr+']');
-        save();
-        buf = [];
+        save(JSON.parse(datastr + ']'));
+        datastr = null;
     }
 
 
     // save(data,line);
 }).on("close", function() {
-    if (buf.length > 0) {
-        save();
+    if (datastr) {
+        save(JSON.parse(datastr + ']'));
     }
+    var client = redis.createClient("/tmp/redis.sock");
+    client.set('logs:size', cnt);
+    client.quit();
 
     console.log("line = " + numeral(cnt).format());
     console.log("chunk = " + loopsize);
